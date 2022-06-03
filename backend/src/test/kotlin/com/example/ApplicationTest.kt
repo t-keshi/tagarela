@@ -1,5 +1,6 @@
 package com.example
 
+import com.example.controller.students
 import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
@@ -12,16 +13,20 @@ import io.ktor.client.statement.*
 import kotlin.test.*
 import io.ktor.server.testing.*
 import com.example.plugins.*
+import io.ktor.server.locations.*
 
 class ApplicationTest {
     @Test
     fun testRoot() = testApplication {
+        install(Locations)
+
         application {
-            configureRouting()
+            routing {
+                students()
+            }
         }
-        client.get("/").apply {
+        client.get("/api/student").apply {
             assertEquals(HttpStatusCode.OK, status)
-            assertEquals("Hello World!", bodyAsText())
         }
     }
 }
