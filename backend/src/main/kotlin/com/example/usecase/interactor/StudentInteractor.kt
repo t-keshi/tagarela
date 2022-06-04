@@ -20,6 +20,7 @@ private val studentRepository by injector.instance<IStudentRepository>()
 class StudentUsecase : IStudentUseCase {
     override fun getStudent(): GetStudentOutput {
         Logger().log("### usecase ###", "info")
+
         val student: Student = studentRepository.getStudent()
         return GetStudentOutput(
             id = student.id,
@@ -30,12 +31,13 @@ class StudentUsecase : IStudentUseCase {
     }
 
 
-    override fun createStudent(studentInput: CreateStudentInput) {
+    override fun createStudent(input: CreateStudentInput) {
         Logger().log("### usecase ###", "info")
+
         studentRepository.createStudent(
-            name = studentInput.name,
-            password = studentInput.password,
-            email = studentInput.email
+            name = input.name,
+            password = input.password,
+            email = input.email
         )
     }
 }

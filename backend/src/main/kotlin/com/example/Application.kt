@@ -1,6 +1,7 @@
 package com.example
 
 import com.example.controller.students
+import com.example.controller.topics
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
@@ -28,6 +29,7 @@ fun Application.module() {
 
         routing {
             students()
+            topics()
         }
     }.start(wait = true)
 }
