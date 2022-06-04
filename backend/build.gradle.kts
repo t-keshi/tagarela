@@ -1,6 +1,9 @@
-val ktor_version: String by project
-val kotlin_version: String by project
-val logback_version: String by project
+val ktorVersion: String by project
+val kotlinVersion: String by project
+val logbackVersion: String by project
+val jdbiVersion: String by project
+val ktormVersion: String by project
+val isDevelopment: String by project
 
 plugins {
     application
@@ -13,25 +16,38 @@ version = "0.0.1"
 application {
     mainClass.set("com.example.ApplicationKt")
 
-    val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+    val isD: Boolean = isDevelopment === "true"
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=true")
 }
 
 repositories {
     mavenCentral()
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
+    maven { url = uri( "https://dl.bintray.com/kotlin/exposed") }
 }
 
 dependencies {
     // ktor
-    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-locations:$ktor_version")
+    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-locations:$ktorVersion")
 
-    implementation("ch.qos.logback:logback-classic:$logback_version")
-    testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    // jbdi
+    implementation(platform("org.jdbi:jdbi3-bom:$jdbiVersion"))
+    implementation("org.jdbi:jdbi3-core:$jdbiVersion")
+    implementation("org.jdbi:jdbi3-kotlin:$jdbiVersion")
+    implementation("org.jdbi:jdbi3-postgres:$jdbiVersion")
+
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     implementation("org.kodein.di:kodein-di:7.12.0")
+
+    implementation( "org.ktorm:ktorm-core:${ktormVersion}")
+    implementation("org.ktorm:ktorm-support-mysql:${ktormVersion}")
+
+
+    implementation("mysql:mysql-connector-java:8.0.29")
 }

@@ -1,6 +1,6 @@
 package com.example.controller
 
-import com.example.domain.Student
+import com.example.domain.model.Student
 import com.example.usecase.`interface`.IStudentUseCase
 import com.example.usecase.interactor.StudentUsecase
 import io.ktor.server.routing.Route
@@ -25,8 +25,10 @@ private val studentUsecase by injector.instance<IStudentUseCase>()
 
 fun Route.students() {
     get<StudentApi.StudentGet> {
+        println("# controller #")
         val message = studentUsecase.get()
         call.respondText(message)
+        call.response.status(HttpStatusCode.OK)
     }
     post<StudentApi.StudentCreate> {
         val requestBody = call.receive<Student>()
