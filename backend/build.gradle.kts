@@ -23,7 +23,7 @@ application {
 repositories {
     mavenCentral()
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
-    maven { url = uri( "https://dl.bintray.com/kotlin/exposed") }
+    maven { url = uri("https://dl.bintray.com/kotlin/exposed") }
 }
 
 dependencies {
@@ -33,6 +33,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-locations:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-jackson:$ktorVersion")
 
     // jbdi
     implementation(platform("org.jdbi:jdbi3-bom:$jdbiVersion"))
@@ -43,11 +44,14 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+
     implementation("org.kodein.di:kodein-di:7.12.0")
 
-    implementation( "org.ktorm:ktorm-core:${ktormVersion}")
+    implementation("org.ktorm:ktorm-core:${ktormVersion}")
     implementation("org.ktorm:ktorm-support-mysql:${ktormVersion}")
 
-
     implementation("mysql:mysql-connector-java:8.0.29")
+
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
+
 }

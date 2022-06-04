@@ -1,11 +1,13 @@
 package com.example
 
 import com.example.controller.students
-import com.example.database.DatabaseManager
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import com.fasterxml.jackson.databind.SerializationFeature
+import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
+import io.ktor.server.engine.*
 import io.ktor.server.locations.*
+import io.ktor.server.netty.*
+import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.routing.*
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
@@ -18,6 +20,11 @@ fun Application.module() {
 
     embeddedServer(Netty, port = port, watchPaths = watch) {
         install(Locations)
+        install(ContentNegotiation) {
+            jackson {
+                configure(SerializationFeature.INDENT_OUTPUT, true)
+            }
+        }
 
         routing {
             students()
