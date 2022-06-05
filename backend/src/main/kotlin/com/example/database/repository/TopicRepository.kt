@@ -4,13 +4,8 @@ import com.example.database.DatabaseManager
 import com.example.database.`interface`.ITopicRepository
 import com.example.domain.model.Topic
 import com.example.share.Logger
-import org.ktorm.dsl.eq
-import org.ktorm.dsl.insert
-import org.ktorm.dsl.plus
-import org.ktorm.dsl.update
+import org.ktorm.dsl.*
 import org.ktorm.entity.Entity
-import org.ktorm.entity.map
-import org.ktorm.entity.sequenceOf
 import org.ktorm.schema.Table
 import org.ktorm.schema.int
 import org.ktorm.schema.varchar
@@ -36,7 +31,11 @@ class TopicRepository : ITopicRepository {
         Logger().log("### database ###", "info")
 
         try {
-            return db.sequenceOf(TopicsTable).map { Topic(it.id, it.content, it.likes) }
+            val query = db.from(TopicsTable).select().orderBy(TopicsTable.likes.desc()).limit(offset = 0, limit = 30)
+            return query.map { row ->
+                val topic = TopicsTable.createEntity(row)
+                Topic(id = topic.id, content = topic.content, likes = topic.likes)
+            }
         } catch (e: Exception) {
             throw IllegalStateException("failed to get student")
         }
