@@ -13,13 +13,12 @@ import io.ktor.server.routing.*
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
-@Suppress("unused") // Referenced in application.conf
+@Suppress("unused")
+@kotlin.jvm.JvmOverloads
 fun Application.module() {
-    val port = environment.config.property("ktor.deployment.port").getString().toInt()
-    val watch = environment.config.property("ktor.deployment.watch").getList()
-    println(watch)
+    val port = System.getenv("PORT")?.toInt() ?: 8080
 
-    embeddedServer(Netty, port = port, watchPaths = watch) {
+    embeddedServer(Netty, port = port, watchPaths = listOf("build")) {
         install(Locations)
         install(ContentNegotiation) {
             jackson {

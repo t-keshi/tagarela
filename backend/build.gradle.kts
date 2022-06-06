@@ -9,15 +9,18 @@ plugins {
     application
     kotlin("jvm") version "1.6.21"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.6.21"
+    id("com.github.johnrengelman.shadow") version "5.1.0"
+    id("com.google.cloud.tools.appengine") version "2.1.0"
 }
 
 group = "com.example"
 version = "0.0.1"
 application {
+    project.setProperty("mainClassName", "com.example.ApplicationKt")
     mainClass.set("com.example.ApplicationKt")
 
-    val isD: Boolean = isDevelopment === "true"
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=true")
+    val isD = if (isDevelopment === "true") "true" else "false"
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isD")
 }
 
 repositories {
@@ -53,5 +56,23 @@ dependencies {
     implementation("mysql:mysql-connector-java:8.0.29")
 
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
+}
 
+
+tasks.assemble {
+    dependsOn(tasks.shadowJar) // assembleの依存タスクとしてshadowJarを実行する。
+}
+
+tasks.shadowJar {
+    archiveClassifier.set("") // fat jarを単独のjarと同じ名前にして上書きする。
+}
+
+appengine {
+    stage {
+        setAppEngineDirectory(".") // app.yamlをトップディレクトリに置く
+    }
+    deploy {
+        projectId = "GCLOUD_CONFIG"
+        version = "GCLOUD_CONFIG"
+    }
 }
