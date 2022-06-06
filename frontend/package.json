@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build:nexus-typegen": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' --transpile-only bff",
-    "build": "npm run build:nexus-typegen && next build",
+    "typegen": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' --transpile-only bff",
+    "build": "npm run build",
     "start": "next start",
     "lint": "next lint"
   },
