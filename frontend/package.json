@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "typegen": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' --transpile-only bff",
-    "build": "npm run build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "next build",
+    "start": "next start -p $PORT",
+    "lint": "next lint",
+    "deploy:gae": "npm run build && gcloud app deploy app.yaml --project=tagarela-352423"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",

@@ -1,0 +1,12 @@
+steps:
+  - name: node:16
+    entrypoint: npm
+    dir: frontend
+    args: ["install"]
+  - name: node:16
+    entrypoint: npm
+    dir: frontend
+    args: ["run", "build"]
+  - name: gcr.io/cloud-builders/gcloud
+    dir: frontend
+    args: ["app", "deploy", "app.yaml", "--project=foo", "--quiet"]
