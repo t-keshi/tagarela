@@ -36,3 +36,4 @@ out/
 .vscode/
 
 application.yml
+node_modules/
