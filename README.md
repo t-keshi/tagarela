@@ -7,7 +7,9 @@
 ### フロントエンド
 
 Next.js
+emotion
 
 ### バックエンド
 
 Kotlin
+ktor
