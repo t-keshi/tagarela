@@ -6,10 +6,10 @@
 
 ### フロントエンド
 
-Next.js
-emotion
+Next.js emotion
 
 ### バックエンド
 
-Kotlin
-ktor
+Kotlin ktor
+
+変更しました！
